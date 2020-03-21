@@ -1,0 +1,367 @@
+swagger: "2.0"
+info:
+  description: API de Processos
+  version: 1.0.0
+  title: Documentação da API de Processos
+  contact:
+    email: contato@addesistemas.com.br
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+host: {{host_with_port}}
+basePath: /v1
+tags:
+  - name: configuracoes
+    description: Operações de configuração do microserviço
+  - name: pessoas
+    description: Operações do domínio de pessoas
+  - name: processos
+    description: Operações do domínio de processos
+schemes:
+  - https
+  - http
+paths:
+  /ping:
+    get:
+      tags:
+        - configuracoes
+      summary: Api keepalive
+      description: Api keepalive
+      operationId: get_alive
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: pong response
+      x-swagger-router-controller: server.controller.keepalive_controller
+  /pessoas:
+    get:
+      tags:
+        - pessoas
+      operationId: get_todas_pessoas
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: Lista de pessoas
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PessoaOutput'
+      x-swagger-router-controller: server.controller.pessoa_controller
+    post:
+      tags:
+        - pessoas
+      operationId: post_criar_pessoa
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PessoaInput'
+      responses:
+        200:
+          description: Pessoa criada com sucesso
+          schema:
+            $ref: '#/definitions/PessoaOutput'
+      x-swagger-router-controller: server.controller.pessoa_controller
+  /pessoas/{pessoa_guid}:
+    get:
+      tags:
+        - pessoas
+      operationId: get_pessoa_por_guid
+      produces:
+        - application/json
+      parameters:
+        - name: pessoa_guid
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Pessoa encontrada com sucesso
+          schema:
+            $ref: '#/definitions/PessoaOutput'
+      x-swagger-router-controller: server.controller.pessoa_controller
+    put:
+      tags:
+        - pessoas
+      operationId: put_atualizar_pessoa
+      produces:
+        - application/json
+      parameters:
+        - name: pessoa_guid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PessoaInput'
+      responses:
+        200:
+          description: Pessoa atualizada com sucesso
+          schema:
+            $ref: '#/definitions/PessoaOutput'
+      x-swagger-router-controller: server.controller.pessoa_controller
+    delete:
+      tags:
+        - pessoas
+      operationId: delete_pessoa
+      produces:
+        - application/json
+      parameters:
+        - name: pessoa_guid
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Pessoa excluída com sucesso
+      x-swagger-router-controller: server.controller.pessoa_controller
+  /processos:
+    get:
+      tags:
+        - processos
+      operationId: get_todos_processos
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        200:
+          description: Lista de processos
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProcessoOutput'
+      x-swagger-router-controller: server.controller.processo_controller
+    post:
+      tags:
+        - processos
+      operationId: post_criar_processo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ProcessoInput'
+      responses:
+        200:
+          description: Processo criado com sucesso
+          schema:
+            $ref: '#/definitions/ProcessoOutput'
+      x-swagger-router-controller: server.controller.processo_controller
+  /processos/{processo_guid}:
+    get:
+      tags:
+        - processos
+      operationId: get_processo_por_guid
+      produces:
+        - application/json
+      parameters:
+        - name: processo_guid
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Processo encontrado com sucesso
+          schema:
+            $ref: '#/definitions/ProcessoOutput'
+      x-swagger-router-controller: server.controller.processo_controller
+    put:
+      tags:
+        - processos
+      operationId: put_atualizar_processo
+      produces:
+        - application/json
+      parameters:
+        - name: processo_guid
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ProcessoInput'
+      responses:
+        200:
+          description: Processo atualizado com sucesso
+          schema:
+            $ref: '#/definitions/ProcessoOutput'
+      x-swagger-router-controller: server.controller.processo_controller
+    delete:
+      tags:
+        - processos
+      operationId: delete_processo
+      produces:
+        - application/json
+      parameters:
+        - name: processo_guid
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Processo excluído com sucesso
+      x-swagger-router-controller: server.controller.processo_controller
+#  /processos/{processo_guid}/partes:
+#    get:
+#      tags:
+#        - processos
+#      operationId: get_relacao_processo_parte
+#      produces:
+#        - application/json
+#      parameters:
+#        - name: processo_guid
+#          in: path
+#          required: true
+#          type: string
+#      responses:
+#        200:
+#          description: Partes relacionadas ao processo
+#          schema:
+#            type: array
+#            items:
+#              $ref: '#/definitions/ParteOutput'
+#      x-swagger-router-controller: server.controller.relacao_processo_parte_controller
+#  /processos/{processo_guid}/partes/{parte_guid}:
+#    delete:
+#      tags:
+#        - processos
+#      operationId: delete_relacao_processo_parte
+#      produces:
+#        - application/json
+#      parameters:
+#        - name: processo_guid
+#          in: path
+#          required: true
+#          type: string
+#        - name: parte_guid
+#          in: path
+#          required: true
+#          type: string
+#      responses:
+#        200:
+#          description: Apaga uma parte específica relacionada ao processo
+#          schema:
+#            type: string
+#      x-swagger-router-controller: server.controller.relacao_processo_parte_controller
+#  /processos-partes:
+#    post:
+#      tags:
+#        - processos
+#      operationId: post_criar_relacao_processo_parte
+#      produces:
+#        - application/json
+#      parameters:
+#        - name: body
+#          in: body
+#          required: true
+#          schema:
+#            type: object
+#            $ref: '#/definitions/RelacaoProcessoParteInput'
+#      responses:
+#        200:
+#          description: Partes relacionadas ao processo
+#          schema:
+#            type: object
+#            $ref: '#/definitions/RelacaoProcessoParteOutput'
+#      x-swagger-router-controller: server.controller.relacao_processo_parte_controller
+definitions:
+  PessoaInput:
+    type: object
+    properties:
+      guid:
+        type: string
+        example: ''
+      nome:
+        type: string
+        example: João Roberto das Couves
+      documento:
+        type: string
+        example: '632829873'
+  PessoaOutput:
+    type: object
+    properties:
+      guid:
+        type: string
+        example: '78749a87-da9a-41bd-a110-8ca4dd9df9d9'
+      nome:
+        type: string
+        example: João Roberto das Couves
+      documento:
+        type: string
+        example: '632829873'
+  ProcessoInput:
+    type: object
+    properties:
+      guid:
+        type: string
+        example: ''
+      numero:
+        type: string
+        example: '1234567'
+      valor:
+        type: string
+        example: '2020-03-10 00:00:00'
+      data:
+        type: string
+        example: '2020-03-12 00:00:00'
+  ProcessoOutput:
+    type: object
+    properties:
+      guid:
+        type: string
+        example: '59eba815-b341-4230-821a-225a03686796'
+      numero:
+        type: string
+        example: '1234567'
+      valor:
+        type: string
+        example: '2020-03-10 00:00:00'
+      data:
+        type: string
+        example: '2020-03-12 00:00:00'
+#  ParteOutput:
+#    type: object
+#    properties:
+#      guid:
+#        type: string
+#        example: '78749a87-da9a-41bd-a110-8ca4dd9df9d9'
+#      tipo_parte:
+#        type: string
+#        example: Réu
+#      pessoa:
+#        $ref: '#/definitions/PessoaOutput'
+#  RelacaoProcessoParteInput:
+#    type: object
+#    properties:
+#      processo_guid:
+#        type: string
+#        example: '78749a87-da9a-41bd-a110-8ca4dd9df9d9'
+#      pessoa_guid:
+#        type: string
+#        example: '78749a87-da9a-41bd-a110-8ca4dd9df9d9'
+#      tipo_parte:
+#        type: string
+#        enum: ['EXEQUENTE', 'EXECUTADO', 'TESTEMUNHA', 'TERCEIRO']
+#  RelacaoProcessoParteOutput:
+#    type: object
+#    properties:
+#      processo:
+#        $ref: '#/definitions/ProcessoOutput'
+#      parte:
+#        $ref: '#/definitions/ParteOutput'
