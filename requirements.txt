@@ -1,6 +1,6 @@
 # API requirements
 Flask==1.1.1
-Werkzeug==0.16.0
+Werkzeug==2.2.3
 connexion==2.5.0
 swagger_ui_bundle
 python-dateutil==2.8.1
