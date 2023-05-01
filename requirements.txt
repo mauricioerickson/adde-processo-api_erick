@@ -1,5 +1,5 @@
 # API requirements
-Flask==1.1.1
+Flask==2.3.2
 Werkzeug==0.16.0
 connexion==2.5.0
 swagger_ui_bundle
